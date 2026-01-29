@@ -1,35 +1,63 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8" />
-    <title>React Player Bare Minimum</title>
-    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    
-    <script src="https://unpkg.com/react-player/dist/ReactPlayer.standalone.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ReactPlayer + HTM (No Build Tools)</title>
+  
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  
+  <script src="https://unpkg.com/htm/dist/htm.umd.js"></script>
+  
+  <script src="https://unpkg.com/react-player/dist/ReactPlayer.js"></script>
+
+  <style>
+    body { font-family: sans-serif; display: flex; flex-direction: column; align-items: center; background: #f0f0f0; }
+    .container { max-width: 800px; width: 100%; margin-top: 50px; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    h1 { color: #333; }
+  </style>
 </head>
 <body>
-    <div id="root"></div>
 
-    <script type="text/babel">
-        function App() {
-            return (
-                <div>
-                    <h1>React Player Example</h1>
-                    <ReactPlayer 
-                        url='https://www.youtube.com/watch?v=ysz5S6PUM-U' 
-                        controls={true}
-                        width="640px"
-                        height="360px"
-                    />
-                </div>
-            );
-        }
+  <div id="root"></div>
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
-    </script>
+  <script>
+    // Bind HTM to React's createElement
+    const html = htm.bind(React.createElement);
+
+    function App() {
+      const [url, setUrl] = React.useState('https://www.youtube.com/watch?v=ysz5S6PUM-U');
+
+      return html`
+        <div class="container">
+          <h1>React Player + HTM</h1>
+          <p>This project uses no build tools!</p>
+          
+          <div style="margin-bottom: 20px;">
+            <input 
+              type="text" 
+              value=${url} 
+              onInput=${e => setUrl(e.target.value)} 
+              placeholder="Paste video URL here" 
+              style="width: 100%; padding: 8px; box-sizing: border-box;" 
+            />
+          </div>
+
+          <${ReactPlayer} 
+            url=${url} 
+            controls 
+            width="100%" 
+            onReady=${() => console.log('Player is ready!')}
+          />
+        </div>
+      `;
+    }
+
+    // Initialize and Render (React 18 style)
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(html`<${App} />`);
+  </script>
+
 </body>
 </html>
