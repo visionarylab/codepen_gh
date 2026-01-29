@@ -1,15 +1,35 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
+<html>
+<head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Padre Gino's</title>
-  </head>
+    <title>React Player Bare Minimum</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    
+    <script src="https://unpkg.com/react-player/dist/ReactPlayer.standalone.js"></script>
+</head>
+<body>
+    <div id="root"></div>
 
-  <body>
-    <div id="root">not rendered</div>
-    <script src="https://unpkg.com/react@18.3.1/umd/react.development.js"></script>
-    <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"></script>
-    <script src="./src/App.js"></script>
-  </body>
+    <script type="text/babel">
+        function App() {
+            return (
+                <div>
+                    <h1>React Player Example</h1>
+                    <ReactPlayer 
+                        url='https://www.youtube.com/watch?v=ysz5S6PUM-U' 
+                        controls={true}
+                        width="640px"
+                        height="360px"
+                    />
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
 </html>
